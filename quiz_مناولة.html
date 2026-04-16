@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>اختبار المناولة الأولى</title>
+<title>اختبار المناولة الأولى — First Communion Quiz</title>
 <style>
   :root {
     --p:#1A6FA8;--ps:#2E86C1;--pl:#D6EAF8;--a:#1558A0;
@@ -18,23 +18,30 @@
   .scr{display:none;padding:20px;max-width:600px;margin:0 auto}
   .scr.active{display:block}
   .card{background:var(--card);border-radius:var(--rad);padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(26,111,168,.1);border:1px solid var(--brd)}
+  /* LANGUAGE PICKER */
+  .lang-pick{display:flex;gap:14px;margin-top:16px}
+  .lang-btn{flex:1;padding:20px 10px;border:3px solid var(--brd);border-radius:16px;background:var(--card);font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;transition:.15s;color:var(--tx);text-align:center}
+  .lang-btn:hover{border-color:var(--p);background:#EBF5FB}
+  .lang-btn .flag{font-size:36px;display:block;margin-bottom:6px}
+  /* NAME SCREEN */
   .welcome-icon{font-size:60px;text-align:center;margin:20px 0 10px}
   .welcome-title{font-size:22px;font-weight:800;text-align:center;color:var(--p);margin-bottom:8px}
   .welcome-sub{font-size:15px;color:var(--txl);text-align:center;margin-bottom:24px;line-height:1.6}
   label{display:block;font-size:15px;font-weight:700;color:var(--p);margin-bottom:8px}
-  input[type=text]{width:100%;padding:14px 16px;border:2px solid var(--brd);border-radius:12px;font-size:17px;font-family:inherit;color:var(--tx);background:#f5f9ff;transition:.2s;text-align:right}
+  input[type=text]{width:100%;padding:14px 16px;border:2px solid var(--brd);border-radius:12px;font-size:17px;font-family:inherit;color:var(--tx);background:#f5f9ff;transition:.2s}
   input[type=text]:focus{outline:none;border-color:var(--p);background:#fff}
   .btn{display:block;width:100%;padding:16px;border:none;border-radius:14px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;transition:.15s;margin-top:12px}
   .btn-primary{background:linear-gradient(135deg,#1558A0,#2E86C1);color:#fff}
   .btn-primary:active{transform:scale(.97)}
   .btn-primary:disabled{opacity:.45;cursor:default}
+  /* QUIZ */
   .q-progress-bar{background:#D6EAF8;border-radius:20px;height:8px;margin-bottom:20px;overflow:hidden}
   .q-progress-fill{background:linear-gradient(90deg,#1558A0,#5DADE2);height:100%;border-radius:20px;transition:.4s}
   .q-counter{font-size:13px;color:var(--txl);text-align:center;margin-bottom:16px}
   .q-card{background:var(--card);border-radius:var(--rad);padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(26,111,168,.12);border:2px solid var(--brd)}
   .q-emoji{font-size:32px;text-align:center;margin-bottom:10px}
   .q-text{font-size:18px;font-weight:700;color:var(--tx);text-align:center;margin-bottom:18px;line-height:1.5}
-  .opt{display:block;width:100%;padding:14px 16px;margin-bottom:10px;border:2px solid var(--brd);border-radius:12px;background:#f5f9ff;font-size:16px;font-family:inherit;color:var(--tx);cursor:pointer;text-align:right;transition:.15s;line-height:1.4}
+  .opt{display:block;width:100%;padding:14px 16px;margin-bottom:10px;border:2px solid var(--brd);border-radius:12px;background:#f5f9ff;font-size:16px;font-family:inherit;color:var(--tx);cursor:pointer;transition:.15s;line-height:1.4}
   .opt:active{transform:scale(.98)}
   .opt.selected{border-color:var(--p);background:#D6EAF8;font-weight:700}
   .opt.correct{border-color:var(--g);background:#d5f5e3;color:var(--g);font-weight:700}
@@ -59,29 +66,40 @@
 <body>
 
 <div class="hdr">
-  <h1>🍞 اختبار المناولة الأولى</h1>
-  <p>سرّ الإفخارستيا المقدسة — ٢٠٢٦</p>
+  <h1>🍞 اختبار المناولة الأولى — First Communion Quiz</h1>
+  <p>سرّ الإفخارستيا المقدسة — The Holy Eucharist — ٢٠٢٦</p>
+</div>
+
+<!-- SCREEN 0: LANGUAGE PICKER -->
+<div class="scr active" id="scr-lang">
+  <div class="welcome-icon">🌐</div>
+  <div class="welcome-title" style="margin-bottom:6px">اختر لغة الاختبار</div>
+  <div class="welcome-title" style="font-size:17px;color:var(--txl);font-weight:500;margin-bottom:20px">Choose your quiz language</div>
+  <div class="lang-pick">
+    <button class="lang-btn" id="btn-lang-ar"><span class="flag">🇱🇧</span>عربي</button>
+    <button class="lang-btn" id="btn-lang-en"><span class="flag">🇬🇧</span>English</button>
+  </div>
 </div>
 
 <!-- SCREEN 1: NAME -->
-<div class="scr active" id="scr-name">
+<div class="scr" id="scr-name">
   <div class="welcome-icon">✝️</div>
-  <div class="welcome-title">أهلاً بك في اختبار المناولة الأولى</div>
-  <div class="welcome-sub">هذا الاختبار يتضمن <strong>١٥ سؤالاً</strong> حول الأسرار والمعمودية والإفخارستيا.<br>اقرأ كل سؤال بتمعّن وأجب بصدق.</div>
+  <div class="welcome-title" id="wt"></div>
+  <div class="welcome-sub" id="ws"></div>
   <div class="card">
-    <label for="student-name">اكتب اسمك الكامل</label>
-    <input type="text" id="student-name" placeholder="مثال: مريم يوسف" autocomplete="off">
-    <button class="btn btn-primary" id="btn-start" disabled>ابدأ الاختبار ←</button>
+    <label for="student-name" id="lbl-name"></label>
+    <input type="text" id="student-name" autocomplete="off">
+    <button class="btn btn-primary" id="btn-start" disabled></button>
   </div>
 </div>
 
 <!-- SCREEN 2: QUIZ -->
 <div class="scr" id="scr-quiz">
   <div class="q-progress-bar"><div class="q-progress-fill" id="qpf" style="width:0%"></div></div>
-  <div class="q-counter" id="qctr">السؤال ١ من ١٥</div>
+  <div class="q-counter" id="qctr"></div>
   <div id="q-area"></div>
   <div class="nav-btns">
-    <button class="btn-next" id="btn-next" disabled>التالي ←</button>
+    <button class="btn-next" id="btn-next" disabled></button>
   </div>
 </div>
 
@@ -89,7 +107,7 @@
 <div class="scr" id="scr-submit">
   <div class="loading">
     <div class="spinner"></div>
-    <p>يتم حفظ إجاباتك...</p>
+    <p id="saving-txt"></p>
   </div>
 </div>
 
@@ -100,11 +118,11 @@
   <div class="result-label" id="res-label"></div>
   <div id="res-badge"></div>
   <div class="card" id="res-wrong-card" style="display:none">
-    <h3 style="font-size:16px;color:var(--r);margin-bottom:10px">❌ الأسئلة التي تحتاج مراجعة:</h3>
+    <h3 id="wrong-hdr" style="font-size:16px;color:var(--r);margin-bottom:10px"></h3>
     <div id="res-wrong-list"></div>
   </div>
   <div class="card" style="text-align:center;background:#d5f5e3;border-color:#1e8449">
-    <p style="font-size:15px;color:var(--g);line-height:1.6">✅ تم حفظ نتيجتك. شكراً على مشاركتك في الاختبار!</p>
+    <p id="saved-txt" style="font-size:15px;color:var(--g);line-height:1.6"></p>
   </div>
 </div>
 
@@ -134,7 +152,53 @@ window._FB_READY = true;
 
 <script>
 // ═══════════════════════════════════════════
-// QUIZ DATA — 12 Questions
+// UI STRINGS
+// ═══════════════════════════════════════════
+const T = {
+  ar: {
+    welcomeTitle: 'أهلاً بك في اختبار المناولة الأولى',
+    welcomeSub: 'هذا الاختبار يتضمن <strong>١٥ سؤالاً</strong> حول الأسرار والمعمودية والإفخارستيا.<br>اقرأ كل سؤال بتمعّن وأجب بصدق.',
+    labelName: 'اكتب اسمك الكامل',
+    placeholder: 'مثال: مريم يوسف',
+    btnStart: 'ابدأ الاختبار ←',
+    btnNext: 'التالي ←',
+    btnFinish: 'إنهاء الاختبار ✓',
+    counter: (n,t) => 'السؤال ' + AR(n) + ' من ' + AR(t),
+    saving: 'يتم حفظ إجاباتك...',
+    resultLabel: (pct) => 'النتيجة: ' + AR(pct) + '%',
+    pass: '✅ ناجح — أحسنت!',
+    fail: '❌ لم تتجاوز الحد الأدنى — راجع المواد وحاول مجدداً',
+    wrongHdr: '❌ الأسئلة التي تحتاج مراجعة:',
+    yourAns: 'إجابتك',
+    correct: 'الصحيح',
+    saved: '✅ تم حفظ نتيجتك. شكراً على مشاركتك في الاختبار!',
+    qPrefix: 'س',
+    dir: 'rtl', lang: 'ar', optAlign: 'right'
+  },
+  en: {
+    welcomeTitle: 'Welcome to the First Communion Quiz',
+    welcomeSub: 'This quiz contains <strong>15 questions</strong> about the Sacraments, Baptism, and the Holy Eucharist.<br>Read each question carefully and answer honestly.',
+    labelName: 'Enter your full name',
+    placeholder: 'e.g. Mary Joseph',
+    btnStart: 'Start Quiz →',
+    btnNext: 'Next →',
+    btnFinish: 'Finish Quiz ✓',
+    counter: (n,t) => 'Question ' + n + ' of ' + t,
+    saving: 'Saving your answers...',
+    resultLabel: (pct) => 'Score: ' + pct + '%',
+    pass: '✅ Passed — Well done!',
+    fail: '❌ Below the passing mark — review the material and try again',
+    wrongHdr: '❌ Questions to review:',
+    yourAns: 'Your answer',
+    correct: 'Correct answer',
+    saved: '✅ Your result has been saved. Thank you for taking the quiz!',
+    qPrefix: 'Q',
+    dir: 'ltr', lang: 'en', optAlign: 'left'
+  }
+};
+
+// ═══════════════════════════════════════════
+// QUIZ DATA — 15 Questions (AR + EN)
 // ═══════════════════════════════════════════
 const QS = [
   {
@@ -142,162 +206,201 @@ const QS = [
     q:'مَن علّمنا الصلاة الربيّة (أبانا الذي في السماوات)؟',
     o:['مريم العذراء','يسوع المسيح','يوحنا المعمدان','بطرس الرسول'],
     a:1,
-    fb:'يسوع علّم تلاميذه الصلاة الربيّة مباشرةً عندما طلبوا منه: "يا رب علّمنا أن نُصلّي." (لوقا ١١: ١-٢)'
+    fb:'يسوع علّم تلاميذه الصلاة الربيّة مباشرةً عندما طلبوا منه: "يا رب علّمنا أن نُصلّي." (لوقا ١١: ١-٢)',
+    en:{
+      q:'Who taught us the Lord\'s Prayer (Our Father)?',
+      o:['The Virgin Mary','Jesus Christ','John the Baptist','Peter the Apostle'],
+      fb:'Jesus taught His disciples the Lord\'s Prayer directly when they asked Him: "Lord, teach us to pray." (Luke 11:1-2). The Our Father is the model of all Christian prayer.'
+    }
   },
   {
     e:'🌊',
     q:'متى أصبحتَ عضواً في الكنيسة؟',
     o:['يوم ميلادي','يوم دخولي للمدرسة','يوم احتفالي بالمعمودية','يوم أول صلاة'],
     a:2,
-    fb:'في سرّ المعمودية نُولد من جديد بالماء والروح القدس، ونصبح أبناء الله وأعضاء في جسد المسيح — الكنيسة.'
+    fb:'في سرّ المعمودية نُولد من جديد بالماء والروح القدس، ونصبح أبناء الله وأعضاء في جسد المسيح — الكنيسة.',
+    en:{
+      q:'When did you become a member of the Church?',
+      o:['On my birthday','On my first day of school','On the day of my Baptism','On the day of my first prayer'],
+      fb:'In Baptism we are born again of water and the Holy Spirit, we become children of God, and we are incorporated into the Body of Christ — the Church. (CCC 1213)'
+    }
   },
   {
     e:'✨',
     q:'ما هي رموز سرّ العماد (المعمودية)؟',
     o:['الماء والزيت فقط','الشمع فقط','الثوب الأبيض فقط','جميعها: الماء والزيت والشمع والثوب الأبيض'],
     a:3,
-    fb:'رموز المعمودية الأربعة: الماء (الطهارة والولادة الجديدة)، زيت الموعوظين (التقوية)، الشمع (نور المسيح)، الثوب الأبيض (نقاء الروح).'
+    fb:'رموز المعمودية الأربعة: الماء (الطهارة والولادة الجديدة)، زيت الموعوظين (التقوية)، الشمع (نور المسيح)، الثوب الأبيض (نقاء الروح).',
+    en:{
+      q:'What are the symbols of the Sacrament of Baptism?',
+      o:['Water and oil only','The candle only','The white garment only','All of them: water, oil, candle, and white garment'],
+      fb:'The four symbols of Baptism: Water (purification and new birth), the Oil of Catechumens (strength), the baptismal candle (the light of Christ), and the white garment (the purity of the soul). (CCC 1216–1243)'
+    }
   },
   {
     e:'👐',
     q:'مَن الذي يمنح سرّ العماد (المعمودية)؟',
     o:['الكاهن','الأهل والوالدان','الأشابين (أبو الكريم وأم الكريم)','الأخوة والأقارب'],
     a:0,
-    fb:'الكاهن هو الذي يُعطي سرّ العماد في الكنيسة الكاثوليكية. في حالات الضرورة القصوى يمكن لأي شخص أن يعمّد.'
+    fb:'الكاهن هو الذي يُعطي سرّ العماد في الكنيسة الكاثوليكية. في حالات الضرورة القصوى يمكن لأي شخص أن يعمّد.',
+    en:{
+      q:'Who administers the Sacrament of Baptism?',
+      o:['The priest','The parents','The godparents','Brothers and relatives'],
+      fb:'Ordinarily the priest (or deacon) baptises in the Catholic Church. In a case of necessity, any person can baptise using the proper form and intention. (CCC 1256)'
+    }
   },
   {
     e:'🏛️',
     q:'كم عدد أسرار الكنيسة الكاثوليكية؟',
     o:['خمسة','سبعة','ثمانية','تسعة'],
     a:1,
-    fb:'الأسرار السبعة: العماد، الإفخارستيا، التثبيت، التوبة، مسحة المرضى، الكهنوت، الزواج.'
+    fb:'الأسرار السبعة: العماد، الإفخارستيا، التثبيت، التوبة، مسحة المرضى، الكهنوت، الزواج.',
+    en:{
+      q:'How many Sacraments does the Catholic Church have?',
+      o:['Five','Seven','Eight','Nine'],
+      fb:'The Seven Sacraments are: Baptism, the Eucharist, Confirmation, Penance, Anointing of the Sick, Holy Orders, and Matrimony. (CCC 1113)'
+    }
   },
   {
     e:'📋',
     q:'ما هي أسرار الكنيسة السبعة؟',
-    o:[
-      'العماد والتثبيت فقط',
-      'العماد والمناولة والتثبيت فقط',
-      'العماد والمناولة والتوبة والتثبيت ومسحة المرضى والكهنوت والزواج',
-      'التوبة والمناولة والتثبيت فقط'
-    ],
+    o:['العماد والتثبيت فقط','العماد والمناولة والتثبيت فقط','العماد والمناولة والتوبة والتثبيت ومسحة المرضى والكهنوت والزواج','التوبة والمناولة والتثبيت فقط'],
     a:2,
-    fb:'الأسرار السبعة الكاملة: العماد، الإفخارستيا (المناولة)، التثبيت، التوبة، مسحة المرضى، الكهنوت، الزواج.'
+    fb:'الأسرار السبعة الكاملة: العماد، الإفخارستيا (المناولة)، التثبيت، التوبة، مسحة المرضى، الكهنوت، الزواج.',
+    en:{
+      q:'What are the Seven Sacraments of the Catholic Church?',
+      o:['Baptism and Confirmation only','Baptism, Communion, and Confirmation only','Baptism, Communion, Penance, Confirmation, Anointing of the Sick, Holy Orders, and Matrimony','Penance, Communion, and Confirmation only'],
+      fb:'The complete list of the Seven Sacraments: Baptism, the Eucharist (Communion), Confirmation, Penance, Anointing of the Sick, Holy Orders, and Matrimony. (CCC 1113)'
+    }
   },
   {
     e:'🤍',
     q:'ما هو سرّ التوبة (الاعتراف)؟',
-    o:[
-      'هو سرّ المصالحة: الرجوع إلى الله بالاعتراف بالخطايا وأخذ الحلّة من الكاهن',
-      'هو سرّ لا يُشارَك مع أحد أبداً',
-      'هو أن أتوب عن خطاياي بمفردي دون كاهن',
-      'هو ألّا أُكرّر الخطأ مرة ثانية فقط'
-    ],
+    o:['هو سرّ المصالحة: الرجوع إلى الله بالاعتراف بالخطايا وأخذ الحلّة من الكاهن','هو سرّ لا يُشارَك مع أحد أبداً','هو أن أتوب عن خطاياي بمفردي دون كاهن','هو ألّا أُكرّر الخطأ مرة ثانية فقط'],
     a:0,
-    fb:'سرّ التوبة هو مصالحة مع الله ومع الكنيسة. نعترف بخطايانا للكاهن الذي يمثّل المسيح، فيمنحنا الغفران بسلطان أعطاه إياه يسوع.'
+    fb:'سرّ التوبة هو مصالحة مع الله ومع الكنيسة. نعترف بخطايانا للكاهن الذي يمثّل المسيح، فيمنحنا الغفران بسلطان أعطاه إياه يسوع.',
+    en:{
+      q:'What is the Sacrament of Penance (Confession)?',
+      o:['It is the sacrament of reconciliation: returning to God by confessing our sins and receiving absolution from the priest','It is a secret sacrament never shared with anyone','It means repenting of sins on our own without a priest','It just means not repeating the same mistake'],
+      fb:'The Sacrament of Penance is a reconciliation with God and with the Church. We confess our sins to the priest who represents Christ and who grants us absolution by the authority Jesus gave him. (CCC 1422–1424)'
+    }
   },
   {
     e:'😊',
     q:'بعد الاعتراف بسرّ التوبة، ماذا يحدث؟',
-    o:[
-      'أرجع بلا خطيئة وأبدأ صفحة نظيفة جديدة',
-      'أكون سعيداً لأنّي تصالحت مع الله والآخرين',
-      'كلاهما صحيح: أبدأ صفحة جديدة وأكون سعيداً بالمصالحة',
-      'أكون حزيناً لأنّ الكاهن سمع خطاياي'
-    ],
+    o:['أرجع بلا خطيئة وأبدأ صفحة نظيفة جديدة','أكون سعيداً لأنّي تصالحت مع الله والآخرين','كلاهما صحيح: أبدأ صفحة جديدة وأكون سعيداً بالمصالحة','أكون حزيناً لأنّ الكاهن سمع خطاياي'],
     a:2,
-    fb:'بعد الاعتراف ننال الغفران ونبدأ من جديد — قلبنا يمتلئ بالفرح والسلام لأننا تصالحنا مع الله الذي يُحبّنا دائماً.'
+    fb:'بعد الاعتراف ننال الغفران ونبدأ من جديد — قلبنا يمتلئ بالفرح والسلام لأننا تصالحنا مع الله الذي يُحبّنا دائماً.',
+    en:{
+      q:'After receiving the Sacrament of Penance, what happens?',
+      o:['I return without sin and start a clean new page','I am happy because I have reconciled with God and others','Both are true: I start fresh and I am joyful in reconciliation','I feel sad because the priest heard my sins'],
+      fb:'After Confession we receive forgiveness and start anew — our hearts are filled with joy and peace because we have been reconciled with God who always loves us. (CCC 1468–1470)'
+    }
   },
   {
     e:'📿',
     q:'ما هي الخطوات الصحيحة لممارسة سرّ التوبة؟',
-    o:[
-      'فحص الضمير فقط',
-      'الذهاب للكاهن مباشرة دون تحضير',
-      'الصلاة في البيت تكفي',
-      'فحص الضمير، الندامة، الاعتراف للكاهن، الإرشاد الروحي، الحلّة، إتمام الكفارة'
-    ],
+    o:['فحص الضمير فقط','الذهاب للكاهن مباشرة دون تحضير','الصلاة في البيت تكفي','فحص الضمير، الندامة، الاعتراف للكاهن، الإرشاد الروحي، الحلّة، إتمام الكفارة'],
     a:3,
-    fb:'الترتيب الصحيح: فحص الضمير ← الندامة الحقيقية ← الاعتراف للكاهن بالخطايا ← الإرشاد الروحي ← الحلّة (الغفران) ← إتمام الكفارة التي طلبها الكاهن.'
+    fb:'الترتيب الصحيح: فحص الضمير ← الندامة الحقيقية ← الاعتراف للكاهن بالخطايا ← الإرشاد الروحي ← الحلّة (الغفران) ← إتمام الكفارة التي طلبها الكاهن.',
+    en:{
+      q:'What are the correct steps for the Sacrament of Penance?',
+      o:['Examination of conscience only','Going straight to the priest without preparation','Prayer at home is enough','Examination of conscience, contrition, confession to the priest, spiritual direction, absolution, and doing the penance'],
+      fb:'The correct order: Examination of conscience → True contrition → Confession of sins to the priest → Spiritual counsel → Absolution (forgiveness) → Completing the penance assigned by the priest. (CCC 1450–1460)'
+    }
   },
   {
     e:'🍞',
     q:'ما هو سرّ الإفخارستيا (المناولة)؟',
-    o:[
-      'مجرد فعل شكر رمزي',
-      'تحويل الخبز فقط إلى جسد المسيح',
-      'تحويل الخمر فقط إلى دم يسوع',
-      'فعل شكر حقيقي: يتحوّل الخبز إلى جسد المسيح والخمر إلى دمه بحلول الروح القدس'
-    ],
+    o:['مجرد فعل شكر رمزي','تحويل الخبز فقط إلى جسد المسيح','تحويل الخمر فقط إلى دم يسوع','فعل شكر حقيقي: يتحوّل الخبز إلى جسد المسيح والخمر إلى دمه بحلول الروح القدس'],
     a:3,
-    fb:'الإفخارستيا هي قمة الحياة المسيحية — ليست رمزاً بل حقيقة: جسد المسيح ودمه الحقيقيان تحت هيئة الخبز والخمر، بمعجزة تسمى "التحول الجوهري".'
+    fb:'الإفخارستيا هي قمة الحياة المسيحية — ليست رمزاً بل حقيقة: جسد المسيح ودمه الحقيقيان تحت هيئة الخبز والخمر، بمعجزة تسمى "التحول الجوهري".',
+    en:{
+      q:'What is the Sacrament of the Eucharist (Holy Communion)?',
+      o:['A symbolic act of thanksgiving only','Only the bread becoming the Body of Christ','Only the wine becoming the Blood of Jesus','A true act of thanksgiving: the bread becomes the Body of Christ and the wine becomes His Blood through the power of the Holy Spirit'],
+      fb:'The Eucharist is the source and summit of Christian life — not a symbol but a reality: the true Body and Blood of Christ under the appearances of bread and wine, through the miracle called Transubstantiation. (CCC 1322–1324, 1376)'
+    }
   },
   {
     e:'🕯️',
     q:'في أيّ يوم مقدّس تأسّس سرّ الإفخارستيا (المناولة)؟',
     o:['يوم خميس الأسرار','يوم الجمعة العظيمة','يوم أحد القيامة','يوم العنصرة'],
     a:0,
-    fb:'في خميس الأسرار، أخذ يسوع الخبز والخمر في العشاء الأخير مع تلاميذه وقال: "هذا هو جسدي... هذا هو دمي." فأسّس سرّ الإفخارستيا الذي نُكرّره في كل قداس.'
+    fb:'في خميس الأسرار، أخذ يسوع الخبز والخمر في العشاء الأخير مع تلاميذه وقال: "هذا هو جسدي... هذا هو دمي." فأسّس سرّ الإفخارستيا الذي نُكرّره في كل قداس.',
+    en:{
+      q:'On which holy day was the Sacrament of the Eucharist instituted?',
+      o:['Holy Thursday (the Last Supper)','Good Friday','Easter Sunday','Pentecost'],
+      fb:'On Holy Thursday, Jesus took bread and wine at the Last Supper with His disciples and said: "This is my Body... This is my Blood." He thus instituted the Eucharist and commanded: "Do this in memory of me." (Luke 22:19-20; CCC 1323)'
+    }
   },
   {
     e:'📖',
     q:'قانون الإيمان (الكريدو) يتحدث عن...',
-    o:[
-      'الآب الخالق فقط',
-      'الابن يسوع المسيح فقط',
-      'الروح القدس فقط',
-      ' الآب والابن والروح القدس والكنيسة المقدسة'
-    ],
+    o:['الآب الخالق فقط','الابن يسوع المسيح فقط','الروح القدس فقط','الآب والابن والروح القدس معاً — الثالوث الأقدس'],
     a:3,
-    fb:'قانون الإيمان يُلخّص إيماننا بالثالوث الأقدس والكنيسة المقدسة: الآب الخالق، الابن المخلّص يسوع المسيح، الروح القدس المُحيي، والكنيسة المقدسة. نُردّده في كل قداس إعلاناً لإيماننا.'
+    fb:'قانون الإيمان يُلخّص إيماننا بالثالوث الأقدس: الآب الخالق، الابن المخلّص يسوع المسيح، والروح القدس المُحيي. نُردّده في كل قداس إعلاناً لإيماننا.',
+    en:{
+      q:'The Creed (Credo) speaks about...',
+      o:['God the Father only','Jesus Christ the Son only','The Holy Spirit only','The Father, the Son, and the Holy Spirit together — the Holy Trinity'],
+      fb:'The Creed summarises our faith in the Holy Trinity: God the Father Creator, the Son Jesus Christ our Saviour, and the Holy Spirit the Giver of life. We recite it at every Mass as a profession of our faith. (CCC 185–197)'
+    }
   },
   {
     e:'🤲',
     q:'ما الذي يجب أن نفعله قبل استقبال المناولة الأولى؟',
-    o:[
-      'نأكل وجبة كبيرة حتى نكون بصحة جيدة',
-      'نذهب إلى الكنيسة مباشرة دون أي تحضير',
-      'نصوم ونتوب ونعترف بخطايانا ونُنظّف قلوبنا',
-      'ننتظر حتى نكبر أكثر'
-    ],
+    o:['نأكل وجبة كبيرة حتى نكون بصحة جيدة','نذهب إلى الكنيسة مباشرة دون أي تحضير','نصوم ونتوب ونعترف بخطايانا ونُنظّف قلوبنا','ننتظر حتى نكبر أكثر'],
     a:2,
-    fb:'قبل المناولة الأولى نُنظّف قلوبنا بسرّ التوبة (الاعتراف)، ونصوم ساعة على الأقل قبل القداس، ونصلّي ونُحضّر أنفسنا لاستقبال يسوع في قلوبنا.'
+    fb:'قبل المناولة الأولى نُنظّف قلوبنا بسرّ التوبة (الاعتراف)، ونصوم ساعة على الأقل قبل القداس، ونصلّي ونُحضّر أنفسنا لاستقبال يسوع في قلوبنا.',
+    en:{
+      q:'What must we do before receiving First Communion?',
+      o:['Eat a big meal so we have energy','Go to church directly without any preparation','Fast, repent, and go to Confession to purify our hearts','Wait until we are older'],
+      fb:'Before First Communion we purify our hearts through Confession, fast for at least one hour before Mass, and prepare ourselves in prayer to receive Jesus worthily into our hearts. (CCC 1385–1387)'
+    }
   },
   {
     e:'⛪',
     q:'المناولة الأولى هي...',
-    o:[
-      'نهاية تعلّم الدين ولا داعي للاستمرار بعدها',
-      'يوم تستقبل فيه يسوع في قلبك للمرة الأولى — وهي بداية جميلة لا نهاية!',
-      'مجرد احتفال عائلي بدون معنى ديني',
-      'شيء يمكن أن تفعله دون أن تتعلّم عنه'
-    ],
+    o:['نهاية تعلّم الدين ولا داعي للاستمرار بعدها','يوم تستقبل فيه يسوع في قلبك للمرة الأولى — وهي بداية جميلة لا نهاية!','مجرد احتفال عائلي بدون معنى ديني','شيء يمكن أن تفعله دون أن تتعلّم عنه'],
     a:1,
-    fb:'المناولة الأولى هي يوم خاص جداً تستقبل فيه يسوع في قلبك للمرة الأولى. إنها ليست نهاية بل بداية — ستواصل بعدها الذهاب إلى القداس وتناول المناولة في كل مرة!'
+    fb:'المناولة الأولى هي يوم خاص جداً تستقبل فيه يسوع في قلبك للمرة الأولى. إنها ليست نهاية بل بداية — ستواصل بعدها الذهاب إلى القداس وتناول المناولة في كل مرة!',
+    en:{
+      q:'First Communion is...',
+      o:['The end of religious education — no need to continue after it','The day you receive Jesus into your heart for the very first time — a beautiful beginning, not an end!','Just a family celebration with no religious meaning','Something you can do without learning about it first'],
+      fb:'First Communion is a very special day when you receive Jesus into your heart for the very first time. It is not an ending but a beginning — you will continue to go to Mass and receive Communion throughout your whole life!'
+    }
   },
   {
     e:'🙌',
     q:'لماذا نتناول الإفخارستيا (المناولة) في القداس؟',
-    o:[
-      'لأنه تقليد موروث لا معنى له',
-      'لنملأ أجسادنا بالطاقة الروحية فقط',
-      'لنتّحد بيسوع المسيح ونُجدّد ذبيحته على الصليب ونبني جسد الكنيسة',
-      'لأن الكاهن يُلزمنا بذلك'
-    ],
+    o:['لأنه تقليد موروث لا معنى له','لنملأ أجسادنا بالطاقة الروحية فقط','لنتّحد بيسوع المسيح ونُجدّد ذبيحته على الصليب ونبني جسد الكنيسة','لأن الكاهن يُلزمنا بذلك'],
     a:2,
-    fb:'نتناول الإفخارستيا لثلاثة أسباب عميقة: ١) الاتحاد الشخصي بيسوع، ٢) إحياء ذكرى ذبيحته على الصليب وتجديدها، ٣) تعزيز وحدتنا كجسد واحد هو الكنيسة.'
+    fb:'نتناول الإفخارستيا لثلاثة أسباب عميقة: ١) الاتحاد الشخصي بيسوع، ٢) إحياء ذكرى ذبيحته على الصليب وتجديدها، ٣) تعزيز وحدتنا كجسد واحد هو الكنيسة.',
+    en:{
+      q:'Why do we receive the Eucharist at Mass?',
+      o:['Because it is an inherited tradition with no meaning','Only to fill our bodies with spiritual energy','To unite ourselves with Jesus, to renew His sacrifice on the Cross, and to build up the Body of the Church','Because the priest requires us to'],
+      fb:'We receive the Eucharist for three profound reasons: 1) Personal union with Jesus Christ; 2) To renew and make present His sacrifice on the Cross; 3) To strengthen our unity as one Body — the Church. (CCC 1391–1397)'
+    }
   }
 ];
+
+const TOTAL = 15;
 
 // ═══════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════
+let LANG = 'ar';
 let studentName = '';
 let curQ = 0;
-const TOTAL = 15;
 let answers = new Array(TOTAL).fill(null);
 let answered = new Array(TOTAL).fill(false);
 let SHUFFLED = [];
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+function $(id){ return document.getElementById(id); }
+function SHW(id){ document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); window.scrollTo(0,0); }
+function AR(n){ return String(n).replace(/\d/g, d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
 
 function SHUFFLE(arr){
   const a = [...arr];
@@ -308,18 +411,30 @@ function SHUFFLE(arr){
   return a;
 }
 
+function SET_LANG(lang){
+  LANG = lang;
+  const t = T[lang];
+  document.documentElement.setAttribute('lang', t.lang);
+  document.documentElement.setAttribute('dir', t.dir);
+  document.getElementById('student-name').style.textAlign = t.optAlign;
+  $('wt').textContent = t.welcomeTitle;
+  $('ws').innerHTML = t.welcomeSub;
+  $('lbl-name').textContent = t.labelName;
+  $('student-name').placeholder = t.placeholder;
+  $('btn-start').textContent = t.btnStart;
+  $('saving-txt').textContent = t.saving;
+}
+
 function PREPARE_QUESTIONS(){
   const shuffledQs = SHUFFLE(QS);
   SHUFFLED = shuffledQs.map(q => {
+    const src = LANG === 'en' ? { ...q, q: q.en.q, o: q.en.o, fb: q.en.fb } : q;
     const indices = SHUFFLE([0,1,2,3]);
-    const newOptions = indices.map(i => q.o[i]);
+    const newOptions = indices.map(i => src.o[i]);
     const newCorrect = indices.indexOf(q.a);
-    return { ...q, o: newOptions, a: newCorrect };
+    return { ...src, o: newOptions, a: newCorrect };
   });
 }
-
-function $(id){ return document.getElementById(id); }
-function SHW(id){ document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); window.scrollTo(0,0); }
 
 function CHK(){
   $('btn-start').disabled = $('student-name').value.trim().length < 2;
@@ -336,10 +451,11 @@ function START(){
 }
 
 function RenderQ(){
+  const t = T[LANG];
   const q = SHUFFLED[curQ];
   const pct = (curQ / TOTAL) * 100;
   $('qpf').style.width = pct + '%';
-  $('qctr').textContent = 'السؤال ' + AR(curQ+1) + ' من ' + AR(TOTAL);
+  $('qctr').textContent = t.counter(curQ + 1, TOTAL);
 
   let html = `<div class="q-card">
     <div class="q-emoji">${q.e}</div>
@@ -353,15 +469,14 @@ function RenderQ(){
     } else if(answers[curQ] === i){
       cls += ' selected';
     }
-    html += `<button class="${cls}" data-idx="${i}">${opt}</button>`;
+    html += `<button class="${cls}" data-idx="${i}" style="text-align:${t.optAlign}">${opt}</button>`;
   });
 
-  html += `<div class="q-feedback ${answered[curQ]?'show':''}">${q.fb}</div>`;
-  html += `</div>`;
+  html += `<div class="q-feedback ${answered[curQ]?'show':''}">${q.fb}</div></div>`;
   $('q-area').innerHTML = html;
 
   const isLast = curQ === TOTAL - 1;
-  $('btn-next').textContent = isLast ? 'إنهاء الاختبار ✓' : 'التالي ←';
+  $('btn-next').textContent = isLast ? t.btnFinish : t.btnNext;
   $('btn-next').disabled = answers[curQ] === null;
 }
 
@@ -380,12 +495,12 @@ function NEXT(){
 
 function SUBMIT(){
   SHW('scr-submit');
-  const correct = answers.filter((a,i)=> a === SHUFFLED[i].a).length;
-  const pct = Math.round((correct/TOTAL)*100);
+  const correct = answers.filter((a,i) => a === SHUFFLED[i].a).length;
+  const pct = Math.round((correct / TOTAL) * 100);
   const pass = pct >= 60;
 
   const wrongQs = [];
-  answers.forEach((a,i)=>{
+  answers.forEach((a,i) => {
     if(a !== SHUFFLED[i].a){
       wrongQs.push({ num:i+1, q:SHUFFLED[i].q, chosen:SHUFFLED[i].o[a], correct:SHUFFLED[i].o[SHUFFLED[i].a] });
     }
@@ -393,6 +508,7 @@ function SUBMIT(){
 
   const payload = {
     name: studentName,
+    lang: LANG,
     score: correct,
     total: TOTAL,
     pct: pct,
@@ -422,28 +538,38 @@ function SUBMIT(){
 }
 
 function ShowResult(correct, pct, pass, wrongQs){
+  const t = T[LANG];
   SHW('scr-result');
   $('res-icon').textContent = pass ? '🎉' : '📖';
   $('res-score').textContent = correct + ' / ' + TOTAL;
-  $('res-label').textContent = 'النتيجة: ' + AR(pct) + '%';
+  $('res-label').textContent = t.resultLabel(pct);
   $('res-badge').innerHTML = pass
-    ? `<div class="pass-badge">✅ ناجح — أحسنت!</div>`
-    : `<div class="fail-badge">❌ لم تتجاوز الحد الأدنى — راجع المواد وحاول مجدداً</div>`;
+    ? `<div class="pass-badge">${t.pass}</div>`
+    : `<div class="fail-badge">${t.fail}</div>`;
+  $('wrong-hdr').textContent = t.wrongHdr;
+  $('saved-txt').textContent = t.saved;
 
   if(wrongQs.length > 0){
     $('res-wrong-card').style.display = 'block';
-    $('res-wrong-list').innerHTML = wrongQs.map(w=>
+    $('res-wrong-list').innerHTML = wrongQs.map(w =>
       `<div class="wrong-item">
-        <strong>س${w.num}: ${w.q}</strong>
-        إجابتك: ${w.chosen}<br>
-        الصحيح: <span style="color:#1E8449;font-weight:700">${w.correct}</span>
-      </div>`).join('');
+        <strong>${t.qPrefix}${w.num}: ${w.q}</strong>
+        ${t.yourAns}: ${w.chosen}<br>
+        ${t.correct}: <span style="color:#1E8449;font-weight:700">${w.correct}</span>
+      </div>`
+    ).join('');
   }
 }
 
-function AR(n){ return String(n).replace(/\d/g, d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
-
 document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('btn-lang-ar').addEventListener('click', function(){
+    SET_LANG('ar');
+    SHW('scr-name');
+  });
+  document.getElementById('btn-lang-en').addEventListener('click', function(){
+    SET_LANG('en');
+    SHW('scr-name');
+  });
   document.getElementById('student-name').addEventListener('input', CHK);
   document.getElementById('btn-start').addEventListener('click', START);
   document.getElementById('btn-next').addEventListener('click', NEXT);
